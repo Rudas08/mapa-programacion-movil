@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa conceptual limpio - Evolución de la Programación Móvil</title>
+  <style>
+    :root{
+      --bg:#eef4ff;
+      --paper:#ffffff;
+      --ink:#102033;
+      --muted:#4c6179;
+      --line:#7c93ad;
+      --blue:#2563eb;
+      --orange:#ea580c;
+      --green:#16a34a;
+      --purple:#7c3aed;
+      --dark:#0f172a;
+      --shadow:0 14px 32px rgba(15,23,42,.12);
+      --soft:0 8px 20px rgba(15,23,42,.08);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 24rem),
+        radial-gradient(circle at bottom right, rgba(124,58,237,.10), transparent 28rem),
+        var(--bg);
+    }
+
+    .page{
+      width:min(1440px, 96%);
+      margin:auto;
+      padding:24px 0 56px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#0f172a,#1e3a8a 55%,#0e7490);
+      color:#fff;
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:1.35fr .75fr;
+      gap:24px;
+      margin-bottom:22px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-90px;
+      top:-110px;
+      width:300px;
+      height:300px;
+      border-radius:50%;
+      background:rgba(255,255,255,.10);
+    }
+
+    .hero > *{ position:relative; z-index:1; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      font-size:.92rem;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(2rem,4vw,3.25rem);
+      line-height:1.05;
+      letter-spacing:-.04em;
+    }
+
+    .hero p{
+      margin:12px 0 0;
+      color:#dbeafe;
+      font-size:1.04rem;
+      max-width:760px;
+    }
+
+    .student{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:22px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+    }
+
+    .student p{
+      margin:6px 0;
+      color:#eff6ff;
+    }
+
+    .notice{
+      background:#fff;
+      border-left:7px solid var(--blue);
+      border-radius:20px;
+      padding:16px 18px;
+      box-shadow:var(--soft);
+      color:#334155;
+      margin-bottom:22px;
+    }
+
+    .notice strong{ color:#0f172a; }
+
+    .map-shell{
+      background:#fff;
+      border-radius:32px;
+      box-shadow:var(--shadow);
+      padding:26px 20px 30px;
+      border:1px solid rgba(148,163,184,.35);
+      overflow-x:auto;
+    }
+
+    .concept-map{
+      min-width:1260px;
+      position:relative;
+      padding:8px 10px 16px;
+      background:
+        linear-gradient(90deg, rgba(148,163,184,.10) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(148,163,184,.10) 1px, transparent 1px),
+        #fbfdff;
+      background-size:34px 34px;
+      border-radius:24px;
+    }
+
+    .central-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+      margin-bottom:8px;
+      position:relative;
+      z-index:2;
+    }
+
+    .node{
+      background:var(--paper);
+      border:3px solid #cbd5e1;
+      border-radius:24px;
+      box-shadow:var(--soft);
+      text-align:center;
+      padding:18px 16px;
+    }
+
+    .central{
+      width:470px;
+      padding:22px 24px;
+      border-color:#0f172a;
+      color:#fff;
+      background:linear-gradient(135deg,#0f172a,#1d4ed8);
+    }
+
+    .central h2{
+      margin:0 0 8px;
+      font-size:1.9rem;
+      line-height:1.05;
+    }
+
+    .central p{
+      margin:0;
+      color:#dbeafe;
+      font-size:.97rem;
+      line-height:1.4;
+    }
+
+    .relation-chip{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+      border:1.8px solid #cbd5e1;
+      border-radius:999px;
+      padding:8px 14px;
+      font-weight:800;
+      font-size:.9rem;
+      color:#334155;
+      box-shadow:var(--soft);
+    }
+
+    .top-connector{
+      position:relative;
+      height:86px;
+      margin:0 80px 6px;
+    }
+
+    .top-connector .vline{
+      position:absolute;
+      left:50%;
+      top:0;
+      transform:translateX(-50%);
+      width:3px;
+      height:30px;
+      background:var(--line);
+      border-radius:99px;
+    }
+
+    .top-connector .hline{
+      position:absolute;
+      left:8%;
+      right:8%;
+      top:30px;
+      height:3px;
+      background:var(--line);
+      border-radius:99px;
+    }
+
+    .top-connector .down{
+      position:absolute;
+      top:30px;
+      width:3px;
+      height:56px;
+      background:var(--line);
+      border-radius:99px;
+      transform:translateX(-50%);
+    }
+
+    .top-connector .d1{ left:12.5%; }
+    .top-connector .d2{ left:37.5%; }
+    .top-connector .d3{ left:62.5%; }
+    .top-connector .d4{ left:87.5%; }
+
+    .top-connector .tag{
+      position:absolute;
+      top:6px;
+      transform:translateX(-50%);
+      background:#fff;
+      border:1.6px solid #cbd5e1;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:.78rem;
+      font-weight:800;
+      color:#475569;
+      box-shadow:var(--soft);
+      white-space:nowrap;
+    }
+
+    .top-connector .t1{ left:12.5%; }
+    .top-connector .t2{ left:37.5%; }
+    .top-connector .t3{ left:62.5%; }
+    .top-connector .t4{ left:87.5%; }
+
+    .eras-grid{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:22px;
+      align-items:start;
+      padding:0 6px;
+    }
+
+    .era-column{
+      position:relative;
+    }
+
+    .era{
+      min-height:132px;
+    }
+
+    .era.pre{ border-color:var(--orange); background:#fff7ed; }
+    .era.early{ border-color:var(--blue); background:#eff6ff; }
+    .era.mature{ border-color:var(--green); background:#f0fdf4; }
+    .era.modern{ border-color:var(--purple); background:#f5f3ff; }
+
+    .era .icon{
+      font-size:2rem;
+      margin-bottom:8px;
+    }
+
+    .era h3{
+      margin:0 0 8px;
+      font-size:1.28rem;
+      line-height:1.08;
+    }
+
+    .period{
+      display:inline-block;
+      background:#f1f5f9;
+      color:#475569;
+      font-weight:800;
+      border-radius:999px;
+      padding:5px 10px;
+      font-size:.84rem;
+    }
+
+    .children{
+      margin-top:16px;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      padding-top:40px;
+    }
+
+    .children::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:0;
+      transform:translateX(-50%);
+      width:3px;
+      height:40px;
+      background:var(--line);
+      border-radius:99px;
+    }
+
+    .child-row{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+    }
+
+    .child-row::before{
+      content:"";
+      position:absolute;
+      top:-14px;
+      left:50%;
+      transform:translateX(-50%);
+      width:3px;
+      height:14px;
+      background:var(--line);
+      border-radius:99px;
+    }
+
+    .child-relation{
+      background:#fff;
+      border:1.6px solid #cbd5e1;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:.78rem;
+      font-weight:800;
+      color:#475569;
+      box-shadow:var(--soft);
+    }
+
+    .child{
+      width:100%;
+      min-height:128px;
+      padding:15px 14px;
+    }
+
+    .child h4{
+      margin:0 0 8px;
+      font-size:1.02rem;
+      line-height:1.1;
+      color:#0f172a;
+    }
+
+    .child p{
+      margin:0;
+      font-size:.91rem;
+      line-height:1.35;
+      color:#334155;
+    }
+
+    .bridge-section{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .bridge{
+      background:#fff;
+      border:2px solid #cbd5e1;
+      border-radius:20px;
+      padding:14px 16px;
+      box-shadow:var(--soft);
+      text-align:center;
+    }
+
+    .bridge .label{
+      display:inline-block;
+      margin-bottom:8px;
+      background:#eef2ff;
+      color:#334155;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:.8rem;
+      font-weight:800;
+    }
+
+    .bridge p{
+      margin:0;
+      font-size:.95rem;
+      color:#334155;
+      line-height:1.35;
+    }
+
+    .final-idea{
+      margin-top:22px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .final-card{
+      width:min(920px,100%);
+      background:#0f172a;
+      color:#fff;
+      border-radius:26px;
+      padding:22px 24px;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+
+    .final-card h3{
+      margin:0 0 10px;
+      font-size:1.45rem;
+    }
+
+    .final-card p{
+      margin:0;
+      color:#dbeafe;
+      line-height:1.45;
+      font-size:.98rem;
+    }
+
+    .examples{
+      margin-top:20px;
+      background:#f8fafc;
+      border:2px solid #cbd5e1;
+      border-radius:24px;
+      padding:18px 22px;
+      box-shadow:var(--soft);
+      text-align:center;
+    }
+
+    .examples h3{
+      margin:0 0 10px;
+      font-size:1.15rem;
+      color:#0f172a;
+    }
+
+    .examples p{
+      margin:0;
+      color:#334155;
+      line-height:1.5;
+      font-size:.98rem;
+    }
+
+    .sources{
+      margin-top:28px;
+      background:#0f172a;
+      color:#e2e8f0;
+      border-radius:28px;
+      padding:26px;
+      box-shadow:var(--shadow);
+    }
+
+    .sources h2{
+      margin:0 0 12px;
+      color:#fff;
+      font-size:1.4rem;
+    }
+
+    .sources ol{
+      margin:0;
+      padding-left:22px;
+    }
+
+    .sources li{
+      margin-bottom:9px;
+      line-height:1.45;
+      color:#cbd5e1;
+      word-break:break-word;
+    }
+
+    .btn-print{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      background:#0f172a;
+      color:#fff;
+      border:none;
+      border-radius:999px;
+      padding:12px 16px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:var(--shadow);
+      z-index:30;
+    }
+
+    @media (max-width: 980px){
+      .hero{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media print{
+      body{ background:#fff; }
+      .page{ width:100%; padding:0; }
+      .hero,.map-shell,.sources,.final-card,.examples,.notice{ box-shadow:none; }
+      .btn-print{ display:none; }
+      .map-shell{ overflow:visible; }
+      .concept-map{ min-width:0; }
+    }
+  </style>
+</head>
+<body>
+  <button class="btn-print" onclick="window.print()">Imprimir / PDF</button>
+
+  <main class="page">
+    <header class="hero">
+      <div>
+        <div class="badge">📱 Mapa conceptual individual</div>
+        <h1>Evolución de la Programación Móvil</h1>
+        <p>
+          Representación visual de las eras, tecnologías, sistemas operativos, herramientas y acontecimientos que han marcado el desarrollo de aplicaciones móviles.
+        </p>
+      </div>
+
+      <div class="student">
+        <p><strong>Estudiante:</strong> Raúl Rudas</p>
+        <p><strong>Carrera:</strong> Ingeniería en Informática</p>
+        <p><strong>Actividad:</strong> Historia y evolución de la programación móvil</p>
+        <p><strong>Formato:</strong>Mapa Conceptual</p>
+      </div>
+    </header>
+
+    <section class="notice">
+      <strong>Corrección visual real:</strong> esta versión fue reorganizada para que las líneas no crucen las cajas. Ahora el mapa usa una estructura más limpia, con conectores en espacios vacíos y columnas ordenadas, para que se vea como un mapa conceptual bien presentado.
+    </section>
+
+    <section class="map-shell">
+      <div class="concept-map">
+        <div class="central-wrap">
+          <div class="node central">
+            <h2>Programación móvil</h2>
+            <p>
+              Desarrollo de aplicaciones para teléfonos, tabletas y otros dispositivos portátiles, integrando sistemas operativos, pantallas táctiles, conectividad, sensores y servicios digitales.
+            </p>
+          </div>
+          <div class="relation-chip">se divide en cuatro eras principales</div>
+        </div>
+
+        <div class="top-connector">
+          <div class="vline"></div>
+          <div class="hline"></div>
+          <div class="down d1"></div>
+          <div class="down d2"></div>
+          <div class="down d3"></div>
+          <div class="down d4"></div>
+
+          <div class="tag t1">se inicia con</div>
+          <div class="tag t2">se transforma con</div>
+          <div class="tag t3">se complica por</div>
+          <div class="tag t4">se optimiza mediante</div>
+        </div>
+
+        <div class="eras-grid">
+          <section class="era-column">
+            <div class="node era pre">
+              <div class="icon">📟</div>
+              <h3>Era Pre-Smartphone</h3>
+              <span class="period">1990–2007</span>
+            </div>
+
+            <div class="children">
+              <div class="child-row">
+                <div class="child-relation">usaba</div>
+                <div class="node child">
+                  <h4>Tecnologías</h4>
+                  <p>Java ME (Java Micro Edition), WAP (Wireless Application Protocol) y aplicaciones ligeras adaptadas a pocos recursos.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">dependía de</div>
+                <div class="node child">
+                  <h4>Sistemas operativos</h4>
+                  <p>Symbian, Palm OS y Windows Mobile como plataformas importantes antes del auge del smartphone moderno.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">permitía</div>
+                <div class="node child">
+                  <h4>Aplicaciones</h4>
+                  <p>Juegos 2D, agenda, correo básico, calculadoras y navegación móvil limitada.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="era-column">
+            <div class="node era early">
+              <div class="icon">📱</div>
+              <h3>Era Smartphone Temprana</h3>
+              <span class="period">2007–2010</span>
+            </div>
+
+            <div class="children">
+              <div class="child-row">
+                <div class="child-relation">aparece con</div>
+                <div class="node child">
+                  <h4>Acontecimientos clave</h4>
+                  <p>iPhone en 2007, iPhone SDK (Software Development Kit), App Store y Android 1.0 en 2008.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">se programa con</div>
+                <div class="node child">
+                  <h4>Desarrollo nativo</h4>
+                  <p>Objective-C para iOS y Java para Android como bases del desarrollo móvil de esa etapa.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">distribuye</div>
+                <div class="node child">
+                  <h4>Tiendas digitales</h4>
+                  <p>App Store y Android Market facilitaron la publicación, descarga y crecimiento del ecosistema de apps.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="era-column">
+            <div class="node era mature">
+              <div class="icon">🧩</div>
+              <h3>Madurez y Fragmentación</h3>
+              <span class="period">2010–2015</span>
+            </div>
+
+            <div class="children">
+              <div class="child-row">
+                <div class="child-relation">provoca</div>
+                <div class="node child">
+                  <h4>Fragmentación</h4>
+                  <p>Muchas marcas, pantallas, resoluciones, capacidades y versiones del sistema operativo.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">necesita</div>
+                <div class="node child">
+                  <h4>Diseño adaptable</h4>
+                  <p>Interfaces responsive, pruebas móviles, mantenimiento por versiones y mejor experiencia de usuario.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">fortalece</div>
+                <div class="node child">
+                  <h4>Herramientas</h4>
+                  <p>Android Studio, Swift, Xamarin, PhoneGap/Cordova e Ionic como respuestas al crecimiento del mercado.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="era-column">
+            <div class="node era modern">
+              <div class="icon">🚀</div>
+              <h3>Desarrollo Híbrido Avanzado</h3>
+              <span class="period">2015–Presente</span>
+            </div>
+
+            <div class="children">
+              <div class="child-row">
+                <div class="child-relation">usa</div>
+                <div class="node child">
+                  <h4>Frameworks modernos</h4>
+                  <p>React Native, Flutter y .NET MAUI para crear aplicaciones multiplataforma con mayor rapidez.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">busca lograr</div>
+                <div class="node child">
+                  <h4>Objetivo</h4>
+                  <p>Reutilizar código, mejorar el rendimiento y mantener una experiencia visual consistente.</p>
+                </div>
+              </div>
+
+              <div class="child-row">
+                <div class="child-relation">se integra con</div>
+                <div class="node child">
+                  <h4>Servicios</h4>
+                  <p>API (Application Programming Interface), nube, IA (Inteligencia Artificial), IoT (Internet of Things) y wearables.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="bridge-section">
+          <div class="bridge">
+            <div class="label">Relación entre etapas</div>
+            <p>La era pre-smartphone evoluciona hacia teléfonos inteligentes con pantallas táctiles y apps nativas.</p>
+          </div>
+
+          <div class="bridge">
+            <div class="label">Relación entre etapas</div>
+            <p>El crecimiento de Android e iOS produce fragmentación y exige mejores pruebas, diseño y mantenimiento.</p>
+          </div>
+
+          <div class="bridge">
+            <div class="label">Relación entre etapas</div>
+            <p>La fragmentación impulsa soluciones híbridas y multiplataforma para desarrollar más rápido y con mayor alcance.</p>
+          </div>
+        </div>
+
+        <div class="final-idea">
+          <div class="final-card">
+            <h3>Idea final del mapa</h3>
+            <p>
+              La programación móvil pasó de aplicaciones simples y limitadas a ecosistemas completos de apps, y luego a soluciones modernas conectadas a la nube, multiplataforma y orientadas a experiencias más rápidas, visuales e inteligentes.
+            </p>
+          </div>
+        </div>
+
+        <div class="examples">
+          <h3>Ejemplos de aplicaciones relacionadas con esta evolución</h3>
+          <p>
+            📧 correo móvil • 🎮 juegos • 🗺️ mapas • 💬 mensajería • 🏦 banca • 🛒 comercio móvil • 🚚 delivery • ⌚ wearables • 🤖 aplicaciones con IA
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sources">
+      <h2>Referencias consultadas</h2>
+      <ol>
+        <li>Apple. (2008). <em>Apple announces iPhone 2.0 software beta</em>. https://www.apple.com/newsroom/2008/03/06Apple-Announces-iPhone-2-0-Software-Beta/</li>
+        <li>Apple. (2018). <em>The App Store turns 10</em>. https://www.apple.com/newsroom/2018/07/app-store-turns-10/</li>
+        <li>Android Developers Blog. (2017). <em>Android announces support for Kotlin</em>. https://android-developers.googleblog.com/2017/05/android-announces-support-for-kotlin.html</li>
+        <li>Apache Cordova. (s. f.). <em>Apache Cordova</em>. https://cordova.apache.org/</li>
+        <li>Flutter. (s. f.). <em>Build apps for any screen</em>. https://flutter.dev/</li>
+        <li>Meta Engineering. (2015). <em>React Native: Bringing modern web techniques to mobile</em>. https://engineering.fb.com/2015/03/26/android/react-native-bringing-modern-web-techniques-to-mobile/</li>
+        <li>Microsoft. (2016). <em>Microsoft to acquire Xamarin and empower more developers to build apps on any device</em>. https://blogs.microsoft.com/blog/2016/02/24/microsoft-to-acquire-xamarin-and-empower-more-developers-to-build-apps-on-any-device/</li>
+        <li>Oracle. (s. f.). <em>Java Platform, Micro Edition (Java ME)</em>. https://www.oracle.com/java/technologies/javameoverview.html</li>
+        <li>React Native. (s. f.). <em>Learn once, write anywhere</em>. https://reactnative.dev/</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
