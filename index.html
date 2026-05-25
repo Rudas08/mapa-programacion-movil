@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mapa conceptual limpio - Evolución de la Programación Móvil</title>
+  <title>Mapa conceptual - Evolución de la Programación Móvil</title>
   <style>
     :root{
       --bg:#eef4ff;
@@ -39,7 +39,8 @@
     }
 
     .hero{
-      background:linear-gradient(135deg,#0f172a,#1e3a8a 55%,#0e7490);
+      /*background:linear-gradient(135deg,#0f172a,#1e3a8a 55%,#0e7490);*/
+      background: #243663;
       color:#fff;
       border-radius:28px;
       padding:28px;
@@ -51,19 +52,6 @@
       position:relative;
       overflow:hidden;
     }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      right:-90px;
-      top:-110px;
-      width:300px;
-      height:300px;
-      border-radius:50%;
-      background:rgba(255,255,255,.10);
-    }
-
-    .hero > *{ position:relative; z-index:1; }
 
     .badge{
       display:inline-flex;
@@ -160,8 +148,9 @@
       width:470px;
       padding:22px 24px;
       border-color:#0f172a;
-      color:#fff;
-      background:linear-gradient(135deg,#0f172a,#1d4ed8);
+      color:white;
+      /*background:linear-gradient(135deg,#0f172a,#1d4ed8);*/
+      background: #1d4ed8;
     }
 
     .central h2{
@@ -200,7 +189,7 @@
     .top-connector .vline{
       position:absolute;
       left:50%;
-      top:0;
+      top:-10px;
       transform:translateX(-50%);
       width:3px;
       height:30px;
@@ -210,9 +199,9 @@
 
     .top-connector .hline{
       position:absolute;
-      left:8%;
+      left:10%;
       right:8%;
-      top:30px;
+      top:20px;
       height:3px;
       background:var(--line);
       border-radius:99px;
@@ -301,14 +290,14 @@
       display:flex;
       flex-direction:column;
       gap:14px;
-      padding-top:40px;
+      padding-top:10px;
     }
 
     .children::before{
       content:"";
       position:absolute;
       left:50%;
-      top:0;
+      top:-15px;
       transform:translateX(-50%);
       width:3px;
       height:40px;
@@ -321,7 +310,7 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:8px;
+      gap:10px;
     }
 
     .child-row::before{
@@ -516,11 +505,11 @@
   <main class="page">
     <header class="hero">
       <div>
-        <div class="badge">📱 Mapa conceptual individual</div>
+        <div class="badge">MAPA CONCEPTUAL</div>
         <h1>Evolución de la Programación Móvil</h1>
-        <p>
+        <!-- <p>
           Representación visual de las eras, tecnologías, sistemas operativos, herramientas y acontecimientos que han marcado el desarrollo de aplicaciones móviles.
-        </p>
+        </p> -->
       </div>
 
       <div class="student">
@@ -532,7 +521,8 @@
     </header>
 
     <section class="notice">
-      <strong>Corrección visual real:</strong> esta versión fue reorganizada para que las líneas no crucen las cajas. Ahora el mapa usa una estructura más limpia, con conectores en espacios vacíos y columnas ordenadas, para que se vea como un mapa conceptual bien presentado.
+      <strong>INTRODUCCIÓN: <br>
+      </strong> Este mapa conceptual presenta de forma ordenada la evolución de la programación móvil, desde los primeros dispositivos con aplicaciones básicas hasta las herramientas modernas de desarrollo multiplataforma. Básicamente, se muestran las principales eras, tecnologías, sistemas operativos y cambios que permitieron que las aplicaciones móviles se volvieran más completas, visuales y conectadas.
     </section>
 
     <section class="map-shell">
@@ -544,7 +534,7 @@
               Desarrollo de aplicaciones para teléfonos, tabletas y otros dispositivos portátiles, integrando sistemas operativos, pantallas táctiles, conectividad, sensores y servicios digitales.
             </p>
           </div>
-          <div class="relation-chip">se divide en cuatro eras principales</div>
+          <div class="relation-chip">Se divide en cuatro eras principales</div>
         </div>
 
         <div class="top-connector">
@@ -555,10 +545,10 @@
           <div class="down d3"></div>
           <div class="down d4"></div>
 
-          <div class="tag t1">se inicia con</div>
-          <div class="tag t2">se transforma con</div>
-          <div class="tag t3">se complica por</div>
-          <div class="tag t4">se optimiza mediante</div>
+          <div class="tag t1">Se inicia con</div>
+          <div class="tag t2">Se transforma con</div>
+          <div class="tag t3">Se complica por</div>
+          <div class="tag t4">Se optimiza mediante</div>
         </div>
 
         <div class="eras-grid">
@@ -571,7 +561,7 @@
 
             <div class="children">
               <div class="child-row">
-                <div class="child-relation">usaba</div>
+                <div class="child-relation">Usaba</div>
                 <div class="node child">
                   <h4>Tecnologías</h4>
                   <p>Java ME (Java Micro Edition), WAP (Wireless Application Protocol) y aplicaciones ligeras adaptadas a pocos recursos.</p>
@@ -579,7 +569,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">dependía de</div>
+                <div class="child-relation">Dependía de</div>
                 <div class="node child">
                   <h4>Sistemas operativos</h4>
                   <p>Symbian, Palm OS y Windows Mobile como plataformas importantes antes del auge del smartphone moderno.</p>
@@ -587,7 +577,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">permitía</div>
+                <div class="child-relation">Permitía</div>
                 <div class="node child">
                   <h4>Aplicaciones</h4>
                   <p>Juegos 2D, agenda, correo básico, calculadoras y navegación móvil limitada.</p>
@@ -605,7 +595,7 @@
 
             <div class="children">
               <div class="child-row">
-                <div class="child-relation">aparece con</div>
+                <div class="child-relation">Aparece con</div>
                 <div class="node child">
                   <h4>Acontecimientos clave</h4>
                   <p>iPhone en 2007, iPhone SDK (Software Development Kit), App Store y Android 1.0 en 2008.</p>
@@ -613,7 +603,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">se programa con</div>
+                <div class="child-relation">Se programa con</div>
                 <div class="node child">
                   <h4>Desarrollo nativo</h4>
                   <p>Objective-C para iOS y Java para Android como bases del desarrollo móvil de esa etapa.</p>
@@ -621,7 +611,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">distribuye</div>
+                <div class="child-relation">Distribuye</div>
                 <div class="node child">
                   <h4>Tiendas digitales</h4>
                   <p>App Store y Android Market facilitaron la publicación, descarga y crecimiento del ecosistema de apps.</p>
@@ -639,7 +629,7 @@
 
             <div class="children">
               <div class="child-row">
-                <div class="child-relation">provoca</div>
+                <div class="child-relation">Provoca</div>
                 <div class="node child">
                   <h4>Fragmentación</h4>
                   <p>Muchas marcas, pantallas, resoluciones, capacidades y versiones del sistema operativo.</p>
@@ -647,7 +637,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">necesita</div>
+                <div class="child-relation">Necesita</div>
                 <div class="node child">
                   <h4>Diseño adaptable</h4>
                   <p>Interfaces responsive, pruebas móviles, mantenimiento por versiones y mejor experiencia de usuario.</p>
@@ -655,7 +645,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">fortalece</div>
+                <div class="child-relation">Fortalece</div>
                 <div class="node child">
                   <h4>Herramientas</h4>
                   <p>Android Studio, Swift, Xamarin, PhoneGap/Cordova e Ionic como respuestas al crecimiento del mercado.</p>
@@ -673,7 +663,7 @@
 
             <div class="children">
               <div class="child-row">
-                <div class="child-relation">usa</div>
+                <div class="child-relation">Usa</div>
                 <div class="node child">
                   <h4>Frameworks modernos</h4>
                   <p>React Native, Flutter y .NET MAUI para crear aplicaciones multiplataforma con mayor rapidez.</p>
@@ -681,7 +671,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">busca lograr</div>
+                <div class="child-relation">Busca lograr</div>
                 <div class="node child">
                   <h4>Objetivo</h4>
                   <p>Reutilizar código, mejorar el rendimiento y mantener una experiencia visual consistente.</p>
@@ -689,7 +679,7 @@
               </div>
 
               <div class="child-row">
-                <div class="child-relation">se integra con</div>
+                <div class="child-relation">Se integra con</div>
                 <div class="node child">
                   <h4>Servicios</h4>
                   <p>API (Application Programming Interface), nube, IA (Inteligencia Artificial), IoT (Internet of Things) y wearables.</p>
@@ -718,7 +708,7 @@
 
         <div class="final-idea">
           <div class="final-card">
-            <h3>Idea final del mapa</h3>
+            <h3>CONCLUSIÓN</h3>
             <p>
               La programación móvil pasó de aplicaciones simples y limitadas a ecosistemas completos de apps, y luego a soluciones modernas conectadas a la nube, multiplataforma y orientadas a experiencias más rápidas, visuales e inteligentes.
             </p>
@@ -728,7 +718,7 @@
         <div class="examples">
           <h3>Ejemplos de aplicaciones relacionadas con esta evolución</h3>
           <p>
-            📧 correo móvil • 🎮 juegos • 🗺️ mapas • 💬 mensajería • 🏦 banca • 🛒 comercio móvil • 🚚 delivery • ⌚ wearables • 🤖 aplicaciones con IA
+            📧 Correo móvil • 🎮 Juegos • 🗺️ Mapas • 💬 Mensajería • 🏦 Banca • 🛒 Comercio Móvil • 🚚 Delivery • ⌚ Smartwatches • 🤖 Apps con IA
           </p>
         </div>
       </div>
